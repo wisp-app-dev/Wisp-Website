@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 100 100%27%3E%3Ctext y=%27.9em%27 font-size=%2790%27%3E%F0%9F%91%BB%3C/text%3E%3C/svg%3E">
+<title>Wisp, reklam ve izleyici engelleyici</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,800&family=Instrument+Sans:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#171233;--ink:#f3f0ff;--mute:#a79fd6;--accent:#8b7cff;--warm:#ff8fc8;--panel:#221b4a;--line:rgba(255,255,255,.14);--glow:rgba(139,124,255,.45);--g1:#fff;--g2:#cfc6ff;--grad:linear-gradient(90deg,#8b7cff,#ff8fc8);color-scheme:dark;box-sizing:border-box;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+*{box-sizing:border-box;margin:0}
+html{scroll-padding-top:env(safe-area-inset-top,0px)}
+body{background:radial-gradient(ellipse 1300px 900px at 50% 0,#3a2c86 0,transparent 100%) no-repeat,var(--bg);color:var(--ink);font:400 1.0625rem/1.6 "Instrument Sans",system-ui,sans-serif;overflow-x:hidden}
+h1,h2,h3{font-family:"Bricolage Grotesque","Instrument Sans",system-ui,sans-serif;line-height:1.02;letter-spacing:-.025em}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--accent);outline-offset:3px;border-radius:12px}
+.wrap{max-width:1120px;margin:0 auto;padding:0 24px}
+nav{display:flex;align-items:center;justify-content:space-between;padding:22px 0}
+.logo{display:flex;align-items:center;gap:10px;font:800 1.5rem "Bricolage Grotesque",sans-serif;text-decoration:none;letter-spacing:-.03em}
+.logo svg{width:34px;height:34px;filter:drop-shadow(0 0 8px rgba(139,124,255,.6))}
+nav a.lnk{font-weight:600;text-decoration:none;color:var(--mute)}
+nav a.lnk:hover{color:var(--ink)}
+.navr{display:flex;align-items:center;gap:28px}
+.cards{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin:0 0 70px}
+.card{scroll-margin-top:24px;border:1.5px solid var(--line);border-radius:28px;background:linear-gradient(135deg,#2e2370,#221b4a 60%);padding:40px 36px}
+.card h2{font-size:clamp(1.7rem,3vw,2.2rem);max-width:none}
+.card p{color:var(--mute);margin:12px 0 26px}
+.card .btn.pri{background:var(--grad);background-origin:border-box;border-color:transparent;color:#171233}
+.card .mail{display:block;margin-top:6px;font-weight:600;font-size:clamp(1rem,4.2vw,1.1rem);color:var(--ink);overflow-wrap:anywhere}
+.hero{display:grid;grid-template-columns:1.05fr .95fr;align-items:center;gap:24px;padding:36px 0 80px;min-height:78vh}
+.hero h1{font-size:clamp(3rem,7.4vw,6.2rem);font-weight:800;padding-bottom:.08em;background:linear-gradient(180deg,#fff 25%,#b9adff);-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p.lead{font-size:1.25rem;color:var(--mute);max-width:30em;margin:26px 0 34px}
+.btns{display:flex;flex-wrap:wrap;gap:12px}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:15px 22px;border-radius:999px;font-weight:600;text-decoration:none;border:1.5px solid var(--line);background:var(--panel);color:var(--ink);transition:transform .2s,box-shadow .2s}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 30px var(--glow)}
+.btn.pri{background:var(--grad);background-origin:border-box;border-color:transparent;color:#171233;font-size:1.05rem}
+.btn svg{width:20px;height:20px;flex:none}
+.hint{margin-top:18px;font-size:.92rem;color:var(--mute)}
+.stage{position:relative;aspect-ratio:1/1.05;display:grid;place-items:center;perspective:900px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.stage::before{content:"";position:absolute;inset:6% 4%;border-radius:50%;background:radial-gradient(circle,var(--glow),transparent 68%);filter:blur(10px)}
+.tilt{position:relative;width:min(80%,380px);transform-style:preserve-3d;will-change:transform}
+.float{animation:fl 5s ease-in-out infinite;transform-style:preserve-3d}
+@keyframes fl{50%{transform:translateY(-16px)}}
+.tilt svg{width:100%;display:block;overflow:visible}
+.back{position:absolute;inset:0;transform:translateZ(-46px) scale(1.03);opacity:.5;filter:blur(2px)}
+.back.b2{transform:translateZ(-22px) scale(1.015);opacity:.85;filter:none}
+.front{filter:drop-shadow(0 0 34px var(--glow)) drop-shadow(0 18px 18px rgba(0,0,10,.35));transform:translateZ(0)}
+.shadow{position:absolute;left:50%;bottom:7%;width:46%;height:6%;translate:-50% 0;border-radius:50%;background:rgba(0,0,0,.4);filter:blur(10px);animation:sh 5s ease-in-out infinite}
+@keyframes sh{50%{transform:scale(.8);opacity:.6}}
+.orb{position:absolute;border-radius:50%;background:var(--accent);opacity:.55;animation:fl 6s ease-in-out infinite}
+.orb.a{width:14px;height:14px;left:10%;top:22%}.orb.b{width:9px;height:9px;right:12%;top:12%;animation-delay:-2s;background:var(--warm)}.orb.c{width:18px;height:18px;right:6%;bottom:30%;animation-delay:-4s}
+.eye{transform-box:fill-box;transform-origin:center;transition:transform .09s}
+.blink .eye{transform:scaleY(.08)}
+.arc{fill:none;stroke:#281c60;stroke-width:2.2;stroke-linecap:round;opacity:0}
+.wink .eyeR{display:none}.wink .arc{opacity:1}
+.bubble{position:absolute;top:6%;right:4%;padding:8px 16px;border-radius:18px 18px 18px 4px;background:var(--panel);border:1.5px solid var(--line);font:800 1.1rem "Bricolage Grotesque",sans-serif;opacity:0;transform:translateY(8px) scale(.9);transition:.25s;pointer-events:none}
+.bubble.show{opacity:1;transform:none}
+section{padding:84px 0}
+h2{font-size:clamp(2.1rem,4.4vw,3.4rem);font-weight:800;max-width:14em}
+.sub{color:var(--mute);max-width:34em;margin-top:16px}
+.demo{margin-top:44px;display:grid;grid-template-columns:240px 1fr;gap:36px;align-items:start}
+.sw{display:flex;align-items:center;gap:14px;font:800 1.2rem "Bricolage Grotesque",sans-serif;cursor:pointer;user-select:none}
+.sw input{position:absolute;opacity:0}
+.track{width:64px;height:36px;border-radius:99px;background:#3a3270;position:relative;transition:background .25s;flex:none}
+.track::after{content:"";position:absolute;top:4px;left:4px;width:28px;height:28px;border-radius:50%;background:#fff;box-shadow:0 2px 8px rgba(0,0,0,.25);transition:transform .25s}
+.sw input:checked+.track{background:var(--grad)}
+.sw input:checked+.track::after{transform:translateX(28px)}
+.sw input:focus-visible+.track{outline:3px solid var(--accent);outline-offset:3px}
+.count{margin-top:18px;color:var(--mute)}
+.count b{font:800 3rem "Bricolage Grotesque",sans-serif;color:var(--ink);display:block;line-height:1}
+.mock{background:var(--panel);border:1.5px solid var(--line);border-radius:20px;overflow:hidden}
+.bar{display:flex;gap:7px;align-items:center;padding:12px 16px;border-bottom:1.5px solid var(--line)}
+.bar i{width:11px;height:11px;border-radius:50%;background:var(--line)}
+.bar span{margin-left:10px;font-size:.85rem;color:var(--mute)}
+.mock{position:relative}
+.page{position:relative;min-height:440px;display:grid;grid-template-columns:1fr 150px;gap:20px;padding:22px;overflow:hidden}
+.ln{height:12px;border-radius:6px;background:var(--line);margin:10px 0}
+.ln.t{height:22px;width:70%;background:var(--mute);opacity:.5;margin-bottom:18px}
+.ad{border-radius:12px;background:repeating-linear-gradient(135deg,var(--warm) 0 14px,transparent 14px 28px);display:grid;place-items:center;font-weight:600;font-size:.85rem;max-height:130px;transition:max-height .5s,margin .5s,opacity .3s}
+.ad span{background:var(--panel);color:var(--ink);padding:4px 10px;border-radius:8px}
+.ad.wide{height:76px;margin:6px 0 16px}
+.side .ad{height:120px;margin-bottom:12px}
+.ad.gone{max-height:0;margin:0;opacity:0}
+.trk{display:flex;flex-wrap:wrap;gap:8px;padding:0 22px 20px}
+.trk em{font:600 .78rem/1 "Instrument Sans";font-style:normal;padding:7px 10px;border-radius:99px;border:1.5px dashed var(--warm)}
+.it{opacity:0;scale:.6;pointer-events:none}
+.it.in{opacity:1;scale:1;transition:opacity .25s,scale .38s cubic-bezier(.3,1.6,.5,1)}
+.it.dust{animation:dis .85s ease-in forwards}
+.it.gone{visibility:hidden}
+@keyframes dis{to{opacity:0;translate:18px -12px;filter:blur(4px);scale:.97}}
+.pop{position:absolute;z-index:3;background:#f3f0ff;color:#171233;border-radius:14px;padding:14px 16px;box-shadow:0 14px 34px rgba(0,0,0,.45);max-width:62%;font-size:.88rem;line-height:1.35}
+.pop b{display:block;font-size:.95rem;margin-bottom:4px}
+.pop p{margin:0 0 8px}
+.pop u{display:inline-block;text-decoration:none;background:var(--warm);padding:5px 12px;border-radius:8px;font-weight:600;font-size:.8rem}
+.win{left:9%;top:24%;width:240px;rotate:-3deg;z-index:4}
+.news{right:5%;top:40%;width:230px;rotate:2deg}
+.notif{left:4%;top:4%;width:250px}
+.vid{right:5%;top:8%;width:150px;height:88px;display:grid;place-items:center;background:#0d0a22;color:#fff;font-weight:600;font-size:.8rem;text-align:center;z-index:2}
+.chat{right:4%;bottom:56px;border-radius:99px;padding:10px 16px;background:var(--accent);color:#fff;font-weight:600}
+.cookie{left:0;right:0;bottom:0;max-width:none;border-radius:0;display:flex;align-items:center;justify-content:space-between;gap:12px;z-index:5}
+.cookie b{margin:0}
+#dust{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:30}
+.feat{margin-top:44px;display:grid;grid-template-columns:1fr 1fr;gap:34px 56px}
+.feat div{border-left:3px solid var(--accent);padding-left:20px}
+.feat h3{font-size:1.5rem;margin-bottom:8px}
+.feat p{color:var(--mute)}
+.dl{position:relative;margin:40px 0 90px;padding:64px 44px 52px;border-radius:32px;background:linear-gradient(135deg,#2e2370,#221b4a 60%);border:1.5px solid var(--line);color:var(--ink);overflow:visible}
+.dl h2{max-width:11em}
+.dl p{opacity:.78;margin:14px 0 30px;max-width:34em}
+.dl .btn{background:transparent;border-color:rgba(255,255,255,.35);color:var(--ink)}
+.dl .btn.pri{background:var(--grad);background-origin:border-box;color:#171233;border-color:transparent}
+.peek{position:absolute;right:48px;top:-58px;width:150px;animation:fl 4s ease-in-out infinite}
+footer{padding:0 0 40px;color:var(--mute);font-size:.92rem;display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+.toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom,0px));transform:translate(-50%,30px);background:var(--ink);color:var(--bg);padding:12px 20px;border-radius:99px;font-weight:600;opacity:0;pointer-events:none;transition:.3s;z-index:9;max-width:92vw;text-align:center}
+.toast.show{opacity:1;transform:translate(-50%,0)}
+@media(max-width:860px){.cards{grid-template-columns:1fr}.hero{grid-template-columns:1fr;padding-top:10px}.stage{max-width:420px;margin:0 auto;width:100%;order:-1}.demo{grid-template-columns:1fr}.feat{grid-template-columns:1fr}.dl{padding:56px 24px 40px}.peek{width:110px;right:24px;top:-44px}.page{grid-template-columns:1fr}.side{display:none}}
+@media(max-width:600px){nav{flex-wrap:wrap;gap:12px}.navr{gap:18px;flex-wrap:wrap}nav a.lnk{font-size:.95rem}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<link rel="canonical" href="https://www.get-wisp-app.com/tr/">
+<link rel="alternate" hreflang="fr" href="https://www.get-wisp-app.com/fr/">
+<link rel="alternate" hreflang="en" href="https://www.get-wisp-app.com/en/">
+<link rel="alternate" hreflang="es" href="https://www.get-wisp-app.com/es/">
+<link rel="alternate" hreflang="de" href="https://www.get-wisp-app.com/de/">
+<link rel="alternate" hreflang="it" href="https://www.get-wisp-app.com/it/">
+<link rel="alternate" hreflang="pt" href="https://www.get-wisp-app.com/pt/">
+<link rel="alternate" hreflang="ru" href="https://www.get-wisp-app.com/ru/">
+<link rel="alternate" hreflang="tr" href="https://www.get-wisp-app.com/tr/">
+<link rel="alternate" hreflang="ar" href="https://www.get-wisp-app.com/ar/">
+<link rel="alternate" hreflang="zh-Hans" href="https://www.get-wisp-app.com/zh/">
+<link rel="alternate" hreflang="x-default" href="https://www.get-wisp-app.com/en/">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<defs>
+<linearGradient id="gg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="var(--g1)"/><stop offset="1" stop-color="var(--g2)"/></linearGradient>
+<symbol id="gb" viewBox="0 0 200 240"><path d="M20 108C20 54 54 20 100 20s80 34 80 88v102c0 12-12 14-20 4-8-10-16-10-24 0s-18 10-26 0-16-10-24 0-18 10-26 0-16-10-20 0c-8 10-20 8-20-4Z"/></symbol>
+<linearGradient id="eg" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#fff"/><stop offset="1" stop-color="#cfc6ff"/></linearGradient>
+<symbol id="eb" viewBox="0 0 64 64"><path d="M13 58V26C13 14 21 6 32 6s19 8 19 20v32l-6.3-5-6.4 5-6.3-5-6.3 5-6.4-5z"/></symbol>
+</defs>
+</svg>
+<div class="wrap">
+<nav>
+<a class="logo" href="#top" aria-label="Wisp, ana sayfa"><svg viewBox="0 0 64 64" aria-hidden="true"><path fill="url(#eg)" d="M13 58V26C13 14 21 6 32 6s19 8 19 20v32l-6.3-5-6.4 5-6.3-5-6.3 5-6.4-5z"/><circle cx="25" cy="27" r="3.6" fill="#281c60"/><circle cx="39" cy="27" r="3.6" fill="#281c60"/></svg>Wisp</a>
+<div class="navr">
+<a class="lnk" href="#soutenir">Projeyi destekle</a>
+<a class="lnk" href="#contact">Bana ulaş</a>
+<a class="lnk" href="#telecharger">İndir</a>
+</div>
+</nav>
+<header class="hero" id="top">
+<div>
+<h1>Hafif gez, bir hayalet gibi.</h1>
+<p class="lead">Wisp, siz gezinirken reklamları ve izleyicileri engeller. Sayfalar daha hızlı yüklenir ve kimse izinizi sürmez.</p>
+<div class="btns">
+<a class="btn pri" data-k="chrome" href="#telecharger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.2M8.9 14l-4.1-7.1M15.1 14l-4.1 7.1"/></svg>Chrome'a ekle</a>
+<a class="btn" href="#telecharger">Mobil uygulamaya bak</a>
+</div>
+<p class="hint">Chrome Web Store'da ücretsiz. Android ve iOS'ta da mevcut.</p>
+</div>
+<div class="stage" id="stage" role="img" aria-label="Wisp hayaleti imlecinizi gözleriyle takip eder. Göz kırpması için dokunun.">
+<span class="orb a"></span><span class="orb b"></span><span class="orb c"></span>
+<div class="shadow"></div>
+<div class="float">
+<div class="tilt" id="tilt">
+<svg class="back b2" viewBox="0 0 64 64" fill="#5b4fd6"><use href="#eb"/></svg>
+<svg class="back" viewBox="0 0 64 64" fill="var(--accent)"><use href="#eb"/></svg>
+<svg class="front" id="ghost" viewBox="0 0 64 64">
+<use href="#eb" fill="url(#eg)"/>
+<g id="face"><circle class="eye eyeL" cx="25" cy="27" r="3.6" fill="#281c60"/><circle class="eye eyeR" cx="39" cy="27" r="3.6" fill="#281c60"/><path class="arc" d="M34.6 27.6q4.4-4.8 8.8 0"/></g>
+</svg>
+</div>
+</div>
+<div class="bubble" id="bub" aria-hidden="true">Bu!</div>
+</div>
+</header>
+<section aria-labelledby="h-demo">
+<h2 id="h-demo">Farkı görün.</h2>
+<p class="sub">Sıradan bir sayfa, öncesi ve sonrası. Reklamlar ve açılır pencereler tek tek gelir. Wisp'i açın ve toza dönüşmelerini izleyin. Gösterim amaçlı simülasyon.</p>
+<div class="demo">
+<div>
+<label class="sw"><input type="checkbox" id="tg"><span class="track"></span>Wisp <span id="st">kapalı</span></label>
+<p class="count" aria-live="polite"><b id="n">0</b>öğe bu sayfada engellendi</p>
+</div>
+<div class="mock" id="mock">
+<div class="bar"><i></i><i></i><i></i><span>herhangi-bir-site.com.tr</span></div>
+<div class="page">
+<div>
+<div class="ad wide it"><span>REKLAM: %70'e varan indirimler</span></div>
+<div class="ln t"></div><div class="ln"></div><div class="ln" style="width:92%"></div><div class="ln" style="width:97%"></div><div class="ln" style="width:60%"></div><div class="ln" style="width:88%"></div><div class="ln" style="width:70%"></div><div class="ln" style="width:94%"></div>
+</div>
+<div class="side"><div class="ad it"><span>REKLAM</span></div><div class="ad it"><span></span></div></div>
+<div class="pop win it"><b>Tebrikler!</b><p>1.000.000. ziyaretçimizsiniz.</p><u>Al</u></div>
+<div class="pop news it"><b>Haberdar olun</b><p>Günde 12 e-posta alın.</p><u>Abone ol</u></div>
+<div class="pop notif it"><b>Bildirimlere izin verilsin mi?</b><u>İzin ver</u></div>
+<div class="pop vid it">▶ Video reklam<br>0:15</div>
+<div class="pop chat it">Yardıma mı ihtiyacınız var?</div>
+<div class="pop cookie it"><b>Çerezlerinizi seviyoruz.</b><u>Tümünü kabul et</u></div>
+</div>
+<div class="trk"><em class="it">pixel-tracker.net</em><em class="it">analytics-tiers.io</em><em class="it">retarget.cdn</em><em class="it">profil-pub.com</em></div>
+<canvas id="dust" aria-hidden="true"></canvas>
+</div>
+</div>
+</section>
+<section aria-labelledby="h-feat">
+<h2 id="h-feat">Sizin için sessiz, izleyiciler için acımasız.</h2>
+<div class="feat">
+<div><h3>Reklamları engeller</h3><p>Bannerlar, rahatsız edici pencereler ve reklam alanları daha görünmeden kaybolur.</p></div>
+<div><h3>İzleyicileri keser</h3><p>Ne okuduğunuzu ve nereye tıkladığınızı gözleyen betikler kaynağında durdurulur.</p></div>
+<div><h3>Hafif kalır</h3><p>Wisp, Chrome'un yerleşik kurallarını kullanır. Arka planda ağır bir hizmet yok, yavaşlama yok.</p></div>
+<div><h3>Sayfaları temizler</h3><p>Reklamların bıraktığı boş çerçeveler gizlenir, sayfa düzeni temiz kalır.</p></div>
+</div>
+</section>
+<section id="telecharger" style="padding-bottom:0">
+<div class="dl">
+<svg class="peek" viewBox="0 0 200 240" aria-hidden="true"><use href="#gb" fill="url(#gg)"/><circle cx="74" cy="106" r="12" fill="#241f57"/><circle cx="126" cy="106" r="12" fill="#241f57"/><circle cx="71" cy="102" r="4" fill="#fff"/><circle cx="123" cy="102" r="4" fill="#fff"/></svg>
+<h2>Wisp'i her yere götürün.</h2>
+<p>Uzantıyı Chrome'a yükleyin veya uygulamayı telefonunuza indirin.</p>
+<div class="btns">
+<a class="btn pri" data-k="chrome" href="#telecharger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="9"/><circle cx="12" cy="12" r="3.5"/><path d="M12 8.5h8.2M8.9 14l-4.1-7.1M15.1 14l-4.1 7.1"/></svg>Chrome'a ekle</a>
+<a class="btn" data-k="apk" href="#telecharger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>APK'yı indir (Android)</a>
+<a class="btn" data-k="ipa" href="#telecharger"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M12 4v11m0 0-4-4m4 4 4-4M5 20h14"/></svg>IPA'yı indir (iOS)</a>
+</div>
+</div>
+</section>
+<section style="padding:0">
+<div class="cards">
+<div class="card" id="soutenir">
+<h2>Projeyi destekle</h2>
+<p>Wisp ücretsizdir ve öyle kalacak. Uygulamayı beğendiyseniz küçük bir bağışla gelişimine destek olabilirsiniz.</p>
+<a class="btn pri" href="https://buymeacoffee.com/wisp.app" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20s-7-4.4-7-10a4 4 0 0 1 7-2.6A4 4 0 0 1 19 10c0 5.6-7 10-7 10Z"/></svg>Bağış yap</a>
+</div>
+<div class="card" id="contact">
+<h2>Bana ulaş</h2>
+<p>Bir soru, bir hata, bir fikir mi?<br>Bana yazın:<a class="mail" href="mailto:contact.pro@get-wisp-app.com">contact.pro@get-wisp-app.com</a></p>
+<a class="btn pri" href="mailto:contact.pro@get-wisp-app.com"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>E-posta gönder</a>
+</div>
+</div>
+</section>
+<footer><span>Wisp, sürüm 1.6.2</span><span>Fark edilmemek için yapıldı.</span></footer>
+</div>
+<div class="toast" id="toast" role="status"></div>
+<script>
+var LINKS = {
+  chrome: "https://chromewebstore.google.com/detail/dlfnhnangapojnglnpgoahjeeldaebdb?utm_source=item-share-cb",
+  apk: "/wisp-site/Wisp.apk",
+  ipa: "/wisp-site/Wisp.ipa"
+};
+ 
+(function(){
+  var $=function(s){return document.querySelector(s)};
+  var toast=$('#toast'),tt;
+  function say(m){toast.textContent=m;toast.classList.add('show');clearTimeout(tt);tt=setTimeout(function(){toast.classList.remove('show')},2600)}
+  var msgs={chrome:"Chrome Web Store bağlantısı yakında geliyor.",apk:"APK dosyası yakında geliyor.",ipa:"IPA dosyası yakında geliyor."};
+  document.querySelectorAll('[data-k]').forEach(function(a){
+    var k=a.dataset.k;
+    if(LINKS[k]){
+      a.href=LINKS[k];
+      if(k!=='chrome')a.setAttribute('download','');
+      if(/^https?:/.test(LINKS[k]))a.target='_blank';
+    } else {
+      a.addEventListener('click',function(e){e.preventDefault();say(msgs[k])});
+    }
+  });
+ 
+  var tg=$('#tg'),mock=$('#mock'),n=$('#n'),st=$('#st'),cv=$('#dust'),ctx=cv.getContext('2d'),
+      items=[].slice.call(mock.querySelectorAll('.it')),timers=[],parts=[],raf=0,nraf,seen=false,
+      calm=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  function shown(el){return el.classList.contains('in')&&el.offsetParent!==null}
+  function count(to){var from=+n.textContent,t0=performance.now();cancelAnimationFrame(nraf);
+    (function s(t){var p=Math.min(1,(t-t0)/700);n.textContent=Math.round(from+(to-from)*p);if(p<1)nraf=requestAnimationFrame(s)})(t0)}
+  function arrive(){
+    timers.forEach(clearTimeout);timers=[];
+    items.forEach(function(el,i){el.classList.remove('in','dust','gone');
+      timers.push(setTimeout(function(){el.classList.add('in')},calm?0:400+i*380))});
+  }
+  function dust(el,delay){
+    var m=mock.getBoundingClientRect(),r=el.getBoundingClientRect(),
+        cols=el.classList.contains('ad')?['#ff8fc8','#f3f0ff','#8b7cff']:el.tagName==='EM'?['#ff8fc8','#a79fd6']:['#f3f0ff','#cfc6ff','#8b7cff','#ff8fc8'],
+        k=Math.min(170,Math.round(r.width*r.height/40));
+    setTimeout(function(){
+      el.classList.add('dust');
+      for(var i=0;i<k;i++){var fx=Math.random();
+        parts.push({x:r.left-m.left+fx*r.width,y:r.top-m.top+Math.random()*r.height,vx:.4+Math.random()*1.7,vy:-.2-Math.random()*1.1,s:1.5+Math.random()*2.6,c:cols[i%cols.length],t0:performance.now()+fx*450,life:700+Math.random()*900})}
+      setTimeout(function(){el.classList.remove('in','dust');el.classList.add('gone')},950);
+      if(!raf)raf=requestAnimationFrame(tick);
+    },delay);
+  }
+  function tick(t){
+    var w=mock.clientWidth,h=mock.clientHeight,d=devicePixelRatio||1;
+    if(cv.width!==Math.round(w*d)||cv.height!==Math.round(h*d)){cv.width=Math.round(w*d);cv.height=Math.round(h*d)}
+    ctx.setTransform(d,0,0,d,0,0);ctx.clearRect(0,0,w,h);
+    parts=parts.filter(function(p){var a=(t-p.t0)/p.life;if(a<0)return true;if(a>=1)return false;
+      p.x+=p.vx;p.y+=p.vy+a*.4;ctx.globalAlpha=1-a;ctx.fillStyle=p.c;ctx.fillRect(p.x,p.y,p.s,p.s);return true});
+    raf=parts.length?requestAnimationFrame(tick):0;
+    if(!raf)ctx.clearRect(0,0,w,h);
+  }
+  tg.addEventListener('change',function(){
+    var on=tg.checked;st.textContent=on?"açık":"kapalı";timers.forEach(clearTimeout);timers=[];
+    if(on){var vis=items.filter(shown);count(vis.length);
+      vis.forEach(function(el,i){if(calm){el.classList.remove('in');el.classList.add('gone')}else dust(el,i*70)})}
+    else{count(0);arrive()}
+  });
+  new IntersectionObserver(function(es){if(es[0].isIntersecting&&!seen){seen=true;if(!tg.checked)arrive()}},{threshold:.25}).observe(mock);
+ 
+  var ghost=$('#ghost'),tilt=$('#tilt'),stage=$('#stage'),bub=$('#bub'),face=$('#face');
+  var reduce=matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var tgt={x:0,y:0},cur={x:0,y:0},last=-1e5;
+  function cl(v){return Math.max(-1,Math.min(1,v))}
+  addEventListener('pointermove',function(e){
+    var r=stage.getBoundingClientRect();
+    tgt.x=cl((e.clientX-(r.left+r.width/2))/(innerWidth/2));
+    tgt.y=cl((e.clientY-(r.top+r.height/2))/(innerHeight/2));
+    last=performance.now();
+  });
+  function loop(t){
+    if(t-last>2500){tgt.x=Math.sin(t/1700)*.7;tgt.y=Math.cos(t/2300)*.35}
+    cur.x+=(tgt.x-cur.x)*.08;cur.y+=(tgt.y-cur.y)*.08;
+    tilt.style.transform='rotateY('+(cur.x*20)+'deg) rotateX('+(-cur.y*13)+'deg)';
+    face.setAttribute('transform','translate('+(cur.x*4.5)+' '+(cur.y*3.5)+')');
+    requestAnimationFrame(loop);
+  }
+  if(!reduce)requestAnimationFrame(loop);
+  function blink(){ghost.classList.add('blink');setTimeout(function(){ghost.classList.remove('blink')},140);setTimeout(blink,2200+Math.random()*3200)}
+  function wink(){ghost.classList.add('wink');setTimeout(function(){ghost.classList.remove('wink')},750)}
+  if(!reduce){setTimeout(blink,1800);setInterval(wink,9000)}
+  stage.addEventListener('click',function(){
+    wink();bub.classList.add('show');setTimeout(function(){bub.classList.remove('show')},1100);
+  });
+})();
+</script>
+</body>
+</html>
+ 
