@@ -7,16 +7,13 @@
   <link rel="alternate" hreflang="x-default" href="https://www.get-wisp-app.com/en/">
   <script>
     (function () {
-      var supported = ['fr','en','es','de','it','pt','ru','tr','ar','zh'];
+      // À compléter au fur et à mesure que tu ajoutes des langues
+      var supported = ['fr','en'];
       var lang = null;
-      try { lang = localStorage.getItem('lang'); } catch (e) {}
-      if (!lang || supported.indexOf(lang) === -1) {
-        lang = null;
-        var prefs = navigator.languages || [navigator.language || 'en'];
-        for (var i = 0; i < prefs.length; i++) {
-          var code = prefs[i].toLowerCase().split('-')[0];
-          if (supported.indexOf(code) !== -1) { lang = code; break; }
-        }
+      var prefs = navigator.languages || [navigator.language || 'en'];
+      for (var i = 0; i < prefs.length; i++) {
+        var code = prefs[i].toLowerCase().split('-')[0];
+        if (supported.indexOf(code) !== -1) { lang = code; break; }
       }
       if (!lang) lang = 'en';
       location.replace('/' + lang + '/' + location.search + location.hash);
